@@ -1,0 +1,18 @@
+FROM ubuntu:22.04
+
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        python3-pip vim htop
+
+WORKDIR /data_science_project
+
+COPY requirements.txt .
+RUN pip3 install awscli && \
+    pip3 install -r requirements.txt && \
+    rm -r ~/.cache/pip
+
+COPY . .
+RUN pip3 install -e .
